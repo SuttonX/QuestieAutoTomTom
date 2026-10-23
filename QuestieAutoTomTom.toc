@@ -1,0 +1,8 @@
+## Interface: 30300
+## Title: Questie Auto TomTom
+## Notes: Automatically directs TomTom to the nearest tracked Questie objective or turn-in.
+## Author: SuttonX
+## Version: 1.2.2
+## OptionalDeps: Questie-335, Questie, TomTom
+## SavedVariables: QuestieAutoTomTomDB
+QuestieAutoTomTom.lua
