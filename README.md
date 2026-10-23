@@ -12,6 +12,7 @@ Automatic Questie objective and turn-in waypoints for **World of Warcraft: Wrath
 - Removes completed objective waypoints and adds the turn-in NPC or object when the quest is ready.
 - Removes waypoints when quests are abandoned or untracked.
 - Uses actual quest completion rather than arrival at a location.
+- Respects manually selected Questie targets and TomTom waypoints instead of replacing them with closer objectives.
 - Displays the objective or NPC name without internal identifiers in the arrow text.
 - Uses quest events and Questie tracker updates, with no periodic location scans or movement searches.
 - Uses Questie's existing location data; no separate quest database or route planner.
@@ -42,6 +43,7 @@ When updating an existing installation, replace the addon folder and reload the 
 | `/qat off` | Pause and remove the helper's waypoints |
 | `/qat on` | Resume automatic waypoints |
 | `/qat refresh` | Recreate the helper's waypoints |
+| `/qat auto` | Resume automatic targeting after selecting a manual destination |
 
 The enabled setting is saved account-wide. Waypoints are temporary and removed on logout or when the helper is paused.
 
@@ -51,7 +53,7 @@ The helper chooses one known location per unfinished objective when quest data o
 
 The helper does not calculate travel routes between zones, continually select different mob spawns as you move, or optimize a questing route. Objectives without Questie location data cannot receive a waypoint. Quest locations on another continent or instance are excluded.
 
-TomTom's closest-waypoint selection may include your manual waypoints. Use `/qat off` when following a manual waypoint without automatic selection. Helper waypoints stay until quest progress changes; merely arriving does not complete or discard an objective. Updates pause while the world map is open.
+Manually selecting a Questie objective/turn-in or a TomTom waypoint takes priority over automatic quest targeting. The helper keeps its objective queue synchronized without replacing that destination. Automatic targeting resumes when that waypoint is removed, or you can use `/qat auto` to resume immediately without deleting your manual waypoint. Simply hiding TomTom's arrow may leave the waypoint active; use Remove waypoint or `/qat auto`. Helper waypoints stay until quest progress changes; merely arriving does not complete or discard an objective. Updates pause while the world map is open.
 
 ## Other addons by SuttonX
 
@@ -59,3 +61,4 @@ TomTom's closest-waypoint selection may include your manual waypoints. Use `/qat
 - [FormFreedom](https://github.com/SuttonX/FormFreedom) — automatic form cancellation and dismount handling for supported actions.
 - [ConsolePortLK-Enhanced](https://github.com/SuttonX/ConsolePortLK-Enhanced) — controller interface improvements for WotLK.
 - [Classfix](https://github.com/SuttonX/Classfix) — alternative class colors across compatible addon frames.
+
