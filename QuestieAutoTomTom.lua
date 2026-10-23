@@ -4,6 +4,8 @@ local owned = {}
 local displayNames = {}
 local arrowWrapped = false
 local activeArrow
+local manualWaypoint
+local resumeAuto = false
 local liveQuests
 local mapToCZ
 local cache, signature, modules = {}, nil, nil
@@ -37,20 +39,33 @@ local function Module(name)
     local ok, value = pcall(QuestieLoader.ImportModule, QuestieLoader, name)
     if ok then return value end
 end
+local function InstallTomTomHooks()
+    if arrowWrapped or not TomTom or not TomTom.SetCrazyArrow then return end
+    local original = TomTom.SetCrazyArrow
+    TomTom.SetCrazyArrow = function(self, waypoint, distance, title, ...)
+        activeArrow = waypoint
+        if waypoint and not displayNames[waypoint] then
+            manualWaypoint = waypoint
+        end
+        return original(self, waypoint, distance, displayNames[waypoint] or title, ...)
+    end
+    if hooksecurefunc and TomTom.RemoveWaypoint then
+        hooksecurefunc(TomTom, 'RemoveWaypoint', function(self, waypoint)
+            if waypoint and waypoint == manualWaypoint then
+                manualWaypoint = nil
+                Mark(true)
+            end
+        end)
+    end
+    arrowWrapped = true
+end
 local function Ready()
     if not Questie or not Questie.db or not Questie.db.profile or not Questie.db.char
         or not TomTom or not TomTom.AddZWaypoint or not TomTom.SetCrazyArrow
         or not TomTom.SetClosestWaypoint or not TomTom.GetClosestWaypoint
         or not QuestieCompat or not QuestieCompat.TomTom_AddWaypoint
         or not QuestieCompat.HBD then return false end
-    if not arrowWrapped then
-        local original = TomTom.SetCrazyArrow
-        TomTom.SetCrazyArrow = function(self, waypoint, distance, title, ...)
-            activeArrow = waypoint
-            return original(self, waypoint, distance, displayNames[waypoint] or title, ...)
-        end
-        arrowWrapped = true
-    end
+    InstallTomTomHooks()
     if not modules then
         local p, d, z = Module('QuestiePlayer'), Module('QuestieMap'), Module('ZoneDB')
         if not p or not p.currentQuestlog or not d or not z then return false end
@@ -190,10 +205,20 @@ local function Sync()
     end
     -- Legacy TomTom selects the closest waypoint in the current zone only.
     -- If none exists there, use Questie's nearest destination from this refresh.
+    if manualWaypoint and TomTom.IsValidWaypoint and not TomTom:IsValidWaypoint(manualWaypoint) then
+        manualWaypoint = nil
+    end
+    if manualWaypoint then
+        status = 'Manual target takes priority; '..tostring(count)..' quest waypoints synced'
+        return
+    end
     if changed or force then
-        if TomTom:GetClosestWaypoint() then TomTom:SetClosestWaypoint()
+        if resumeAuto and fallback then
+            TomTom:SetCrazyArrow(fallback.uid,TomTom.profile.arrow.arrival,fallback.name)
+        elseif TomTom:GetClosestWaypoint() then TomTom:SetClosestWaypoint()
         elseif fallback then TomTom:SetCrazyArrow(fallback.uid,TomTom.profile.arrow.arrival,fallback.name) end
     end
+    resumeAuto = false
     status = tostring(count)..' objective/turn-in waypoints synced'
 end
 local function Tick()
@@ -220,11 +245,12 @@ local function Tick()
 end
 for _, event in ipairs({'PLAYER_LOGIN','PLAYER_LOGOUT','PLAYER_ENTERING_WORLD',
     'QUEST_LOG_UPDATE','UNIT_QUEST_LOG_CHANGED','QUEST_ACCEPTED','QUEST_REMOVED',
-    'QUEST_TURNED_IN','ZONE_CHANGED_NEW_AREA','ZONE_CHANGED','ZONE_CHANGED_INDOORS'}) do
+    'QUEST_TURNED_IN','ADDON_LOADED','ZONE_CHANGED_NEW_AREA','ZONE_CHANGED','ZONE_CHANGED_INDOORS'}) do
     -- Some later quest events are not exposed by every 3.3.5 client.
     pcall(frame.RegisterEvent, frame, event)
 end
 frame:SetScript('OnEvent', function(self, event, unit)
+    InstallTomTomHooks()
     if event == 'PLAYER_LOGIN' then
         QuestieAutoTomTomDB = QuestieAutoTomTomDB or {}
         if QuestieAutoTomTomDB.enabled == nil then QuestieAutoTomTomDB.enabled = true end
@@ -248,9 +274,13 @@ SlashCmdList.QUESTIEAUTOTOMTOM = function(message)
     if command == 'off' then QuestieAutoTomTomDB.enabled=false; Clear(); Print('Disabled.')
     elseif command == 'on' then
         QuestieAutoTomTomDB.enabled=true; Mark(true); Print('Enabled.')
+    elseif command == 'auto' then
+        manualWaypoint = nil; resumeAuto = true; Mark(true); Print('Automatic quest targeting resumed.')
     elseif command == 'refresh' then Clear(); Mark(true)
     else
         Print((QuestieAutoTomTomDB.enabled and 'Enabled. ' or 'Disabled. ') .. status)
-        Print('/qat on | off | refresh')
+        Print('/qat on | off | refresh | auto')
     end
 end
+
+InstallTomTomHooks()
