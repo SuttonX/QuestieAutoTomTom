@@ -1,5 +1,7 @@
 # Questie Auto TomTom
 
+![Questie Auto TomTom — Automatic Quest Navigation for WotLK 3.3.5a](assets/banner.jpg)
+
 Automatic Questie objective and turn-in waypoints for **World of Warcraft: Wrath of the Lich King 3.3.5a (12340)**.
 
 **Eliminates the need to constantly right-click quests in Questie to send them to TomTom.** Accept a quest and follow the arrow—the helper automatically updates objective waypoints and switches to the turn-in location when the quest is ready.
