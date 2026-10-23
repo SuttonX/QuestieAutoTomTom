@@ -18,7 +18,7 @@ Automatic Questie objective and turn-in waypoints for **World of Warcraft: Wrath
 
 - WoW **3.3.5a**.
 - [Questie for 3.3.5](https://github.com/widxwer/Questie), using its `335` branch, or a compatible fork such as [divial28/Questie-335](https://github.com/divial28/Questie-335).
-- A compatible Wrath TomTom addon exposing the legacy `AddZWaypoint` API. Tested with TomTom `v40000-1.0.0`.
+- [TomTom for WotLK 3.3.5a](https://warperia.com/addon-wotlk/tomtom/). Tested with TomTom `v40000-1.0.0`.
 
 The helper has been tested in game by its author. Other Questie/TomTom forks may differ.
 
