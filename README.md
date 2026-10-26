@@ -1,10 +1,10 @@
 # Questie Auto TomTom
 
-![Questie Auto TomTom — Automatic Quest Navigation for WotLK 3.3.5a](assets/banner.jpg)
+![Questie Auto TomTom: Automatic Quest Navigation for WotLK 3.3.5a](assets/banner.jpg)
 
 Automatic Questie objective and turn-in waypoints for **World of Warcraft: Wrath of the Lich King 3.3.5a (12340)**.
 
-**Eliminates the need to constantly right-click quests in Questie to send them to TomTom.** Accept a quest and follow the arrow—the helper automatically updates objective waypoints and switches to the turn-in location when the quest is ready.
+**Eliminates the need to constantly right-click quests in Questie to send them to TomTom.** Accept a quest and follow the arrow. The helper automatically updates objective waypoints and switches to the turn-in location when the quest is ready.
 
 ## Features
 
@@ -57,8 +57,9 @@ Manually selecting a Questie objective/turn-in or a TomTom waypoint takes priori
 
 ## Other addons by SuttonX
 
-- [SetupSwap](https://github.com/SuttonX/SetupSwap) — switch addon sets and UI layouts.
-- [FormFreedom](https://github.com/SuttonX/FormFreedom) — automatic form cancellation and dismount handling for supported actions.
-- [ConsolePortLK-Enhanced](https://github.com/SuttonX/ConsolePortLK-Enhanced) — controller interface improvements for WotLK.
-- [Classfix](https://github.com/SuttonX/Classfix) — alternative class colors across compatible addon frames.
+- [FormFreedom](https://github.com/SuttonX/FormFreedom): Automatic dismounting and shapeshift cancellation for supported actions.
+- [SetupSwap](https://github.com/SuttonX/SetupSwap): Save and switch addon selections, settings, UI layouts, and action-bar setups.
+- [SmartTravel](https://github.com/SuttonX/SmartTravel): One travel button for smart mounts, Druid forms, Ghost Wolf, and Hearthstone.
+- [Classfix](https://github.com/SuttonX/Classfix): Customize class colors across compatible UI frames and addons.
+- [ConsolePortLK Enhanced](https://github.com/SuttonX/ConsolePortLK-Enhanced): Controller UI for WotLK with improved action bars, satellites, and cooldown displays.
 
