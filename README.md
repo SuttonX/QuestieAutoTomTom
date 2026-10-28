@@ -62,4 +62,5 @@ Manually selecting a Questie objective/turn-in or a TomTom waypoint takes priori
 - [SmartTravel](https://github.com/SuttonX/SmartTravel): One travel button for smart mounts, Druid forms, Ghost Wolf, and Hearthstone.
 - [Classfix](https://github.com/SuttonX/Classfix): Customize class colors across compatible UI frames and addons.
 - [ConsolePortLK Enhanced](https://github.com/SuttonX/ConsolePortLK-Enhanced): Controller UI for WotLK with improved action bars, satellites, and cooldown displays.
+- [Locksmith](https://github.com/SuttonX/Locksmith): Modifier-click lockbox unlocking and a compact key and Seaforium selection window for Rogues, Blacksmiths, and Engineers.
 
